@@ -3,3 +3,4 @@ beautifulsoup4==4.14.3
 feedparser==6.0.12
 delorean==1.0.0
 playwright==1.56.0
+browser_cookie3==0.20.1
