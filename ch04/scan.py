@@ -4,7 +4,7 @@ import argparse
 import csv
 import docx
 from bs4 import UnicodeDammit
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 
 def search_txt(filename, word):
