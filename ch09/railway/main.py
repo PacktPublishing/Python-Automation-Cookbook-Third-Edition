@@ -1,8 +1,5 @@
 '''
-This app.oy file should be used with the Heroku template in
-https://github.com/datademofun/heroku-basic-flask
-
-Add twilio on requirements.txt and replace app.py with this file
+This main.py file is to be used with Railway
 
 See chapter 9 for further detail
 '''
