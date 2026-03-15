@@ -3,7 +3,7 @@ from openai import OpenAI
 
 client = OpenAI(api_key=OPEN_AI_KEY)
 
-MODEL = 'gpt-5.2'
+MODEL = 'gpt-5.4'
 
 
 def main():
