@@ -1,0 +1,4 @@
+OPEN_AI_KEY = '<OpenAI key>'
+EMAIL_USER = '<your email>'
+CALENDAR_PASSWORD = '<password, check it is without spaces>'
+CALENDAR = '<calendar to check in Google Calendar>'
