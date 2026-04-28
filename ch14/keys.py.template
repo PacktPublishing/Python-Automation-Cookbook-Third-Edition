@@ -1,0 +1,3 @@
+OPEN_AI_KEY = '<OpenAI key>'
+EMAIL_USER = '<your email>'
+EMAIL_PASSWORD = '<your password>'
