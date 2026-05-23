@@ -6,7 +6,7 @@ import time
 
 import feedparser
 import datetime
-import delorean
+import pendulum
 import mistune
 import jinja2
 from collections import namedtuple
@@ -52,13 +52,12 @@ def get_articles(keywords, feeds):
             updated_timestamp = time.mktime(updated_raw)
 
         # Calculate the oldest article we will check
-        time_limit = delorean.epoch(updated_timestamp) - datetime.timedelta(days=7)
+        time_limit = pendulum.from_timestamp(updated_timestamp) - datetime.timedelta(days=7)
         for entry in rss.entries:
             # Normalise the time
             entry_time = entry.published_parsed
             timestamp = time.mktime(entry_time)
-            entry_time = delorean.epoch(timestamp)
-            entry_time.shift('UTC')
+            entry_time = pendulum.from_timestamp(timestamp)
             if entry_time < time_limit:
                 # Skip this entry
                 continue

@@ -2,7 +2,7 @@ import os
 import openpyxl
 import fpdf
 import argparse
-import delorean
+import pendulum
 import pypdf
 from collections import defaultdict
 from sale_log import SaleLog
@@ -67,8 +67,8 @@ def aggregate_by_day(logs):
     days = []
     day = [logs[0]]
     for log in logs[1:]:
-        end_of_day = day[0].timestamp.end_of_day
-        if log.timestamp.datetime > end_of_day:
+        end_of_day = day[0].timestamp.end_of('day')
+        if log.timestamp > end_of_day:
             # A new day
             days.append(day)
             day = []
@@ -76,7 +76,7 @@ def aggregate_by_day(logs):
 
     # Generate a summary by day
     def date_string(log):
-        return log.timestamp.truncate('day').datetime.strftime('%d %b')
+        return log.timestamp.start_of('day').format('DD MM')
 
     summaries = [
         (date_string(day[0]), generate_summary(day))
@@ -201,12 +201,12 @@ def create_summary_brief(summary, temp_file):
     '''
 
     def format_full_tmp(timestamp):
-        return timestamp.datetime.isoformat()
+        return timestamp.isoformat()
 
     def format_brief_tmp(timestamp):
-        return timestamp.datetime.strftime('%d %b')
+        return timestamp.format('DD MM')
 
-    text = TEMPLATE.format(now=format_full_tmp(delorean.utcnow()),
+    text = TEMPLATE.format(now=format_full_tmp(pendulum.now('UTC')),
                            start_time=format_brief_tmp(summary['start_time']),
                            end_time=format_brief_tmp(summary['end_time']),
                            income=summary['total_income'],

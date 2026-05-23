@@ -1,6 +1,6 @@
 import parse
 from decimal import Decimal
-import delorean
+import pendulum
 
 
 class SaleLog(object):
@@ -33,7 +33,7 @@ class SaleLog(object):
     @classmethod
     def from_row(cls, row):
         timestamp_str, shop, product_id, name, raw_price, discount_str = row
-        timestamp = delorean.parse(timestamp_str)
+        timestamp = pendulum.parse(timestamp_str)
         discount = parse.parse('{:d}%', discount_str)[0]
         # Round to remove possible rounding errors in Excel
         price = round(Decimal(raw_price), 2)
@@ -53,7 +53,7 @@ class SaleLog(object):
             return Decimal(string)
 
         def isodate(string):
-            return delorean.parse(string)
+            return pendulum.parse(string)
 
         FORMAT = ('[{timestamp:isodate}] - SALE - PRODUCT: {product:d} '
                   '- PRICE: ${price:price} - NAME: {name:D} '

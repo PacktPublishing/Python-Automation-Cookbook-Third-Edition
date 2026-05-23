@@ -2,7 +2,7 @@ import argparse
 import configparser
 import os.path
 import csv
-import delorean
+import pendulum
 import requests
 from twilio.rest import Client
 
@@ -63,7 +63,7 @@ def send_notification(entry, send, config):
     except KeyError:
         result = 'INVALID_METHOD'
 
-    entry['Timestamp'] = delorean.utcnow().datetime.isoformat()
+    entry['Timestamp'] = pendulum.now('UTC').isoformat()
     entry['Status'] = result
     return entry
 
