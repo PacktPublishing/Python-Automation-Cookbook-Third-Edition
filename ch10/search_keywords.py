@@ -66,15 +66,11 @@ def get_articles(keywords, feeds):
             title = entry.title.strip()
             summary = entry.summary.strip()
             article_reference = (title, summary, entry.link)
-            print(title, summary)
 
             for keyword in keywords:
                 if keyword.lower() in summary or keyword.lower() in title:
                     articles.append(article_reference)
                     break
-            else:
-                print('for', keywords)
-                print('No match in', title, summary)
 
     return articles
 
