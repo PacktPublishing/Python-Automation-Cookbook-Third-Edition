@@ -115,7 +115,7 @@ if __name__ == '__main__':
                              'No codes will be sent')
     parser.add_argument('--config', type=str, dest='config_file',
                         default='config.ini',
-                        help='config file (detaulf config.ini)')
+                        help='config file (default config.ini)')
     args = parser.parse_args()
 
     # Read configuration

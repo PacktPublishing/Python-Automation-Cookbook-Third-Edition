@@ -39,7 +39,15 @@ def generate_summary(logs):
     # Group by product and get summaries
     products = defaultdict(list)
     for log in logs:
-        products[log.name].append(log)
+        # If no code, it's the normal product name
+        if not log.code:
+            name = log.name
+        else:
+            # If code, append the "code" suffix to treat
+            # it as an independent code
+            name = f'{log.name} - code'
+
+        products[name].append(log)
 
     summary = {
         'start_time': start_time,
@@ -150,6 +158,7 @@ def graph(full_summary, products, temp_file, skip_labels=1):
 
     labels = [day for day, summary in full_summary]
 
+    plt.rcParams.update({'font.size': 8})
     plt.figure(figsize=A4_INCHES)
 
     plt.subplot(2, 1, 1)
@@ -158,11 +167,6 @@ def graph(full_summary, products, temp_file, skip_labels=1):
         plt.bar(pos, product, bottom=baseline)
 
     plt.legend([name for name, _, _ in income_by_product])
-
-    # Display a line with the average discount
-    # plt.twinx()
-    # plt.plot(pos, discount, 'o-', color='green')
-    # plt.ylabel('Average Discount')
 
     plt.xticks(pos[::skip_labels], labels[::skip_labels])
 
@@ -204,7 +208,7 @@ def create_summary_brief(summary, temp_file):
         return timestamp.isoformat()
 
     def format_brief_tmp(timestamp):
-        return timestamp.format('DD MM')
+        return timestamp.strftime('%d %b')
 
     text = TEMPLATE.format(now=format_full_tmp(pendulum.now('UTC')),
                            start_time=format_brief_tmp(summary['start_time']),

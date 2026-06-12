@@ -2,16 +2,14 @@
 import argparse
 import sys
 import configparser
-import time
-
 import feedparser
-import datetime
 import pendulum
 import mistune
 import jinja2
 from collections import namedtuple
 
 import smtplib
+import calendar
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -46,18 +44,22 @@ def get_articles(keywords, feeds):
     for feed in feeds:
         rss = feedparser.parse(feed)
         updated_raw = rss.get('updated_parsed')
+        # Use as base time either the last update time or now
         if updated_raw is None:
-            updated_timestamp = time.time()
+            updated_at = pendulum.now()
         else:
-            updated_timestamp = time.mktime(updated_raw)
+            updated_at = pendulum.from_timestamp(calendar.timegm(updated_raw))
 
-        # Calculate the oldest article we will check
-        time_limit = pendulum.from_timestamp(updated_timestamp) - datetime.timedelta(days=7)
+        # Calculate the oldest article we will check, 7 days ago
+        time_limit = updated_at.subtract(days=7)
         for entry in rss.entries:
             # Normalise the time
             entry_time = entry.published_parsed
-            timestamp = time.mktime(entry_time)
-            entry_time = pendulum.from_timestamp(timestamp)
+            if not entry_time:
+                # No time for this entry, skip
+                continue
+            entry_time = pendulum.from_timestamp(calendar.timegm(entry_time))
+
             if entry_time < time_limit:
                 # Skip this entry
                 continue
@@ -68,7 +70,9 @@ def get_articles(keywords, feeds):
             article_reference = (title, summary, entry.link)
 
             for keyword in keywords:
-                if keyword.lower() in summary or keyword.lower() in title:
+                summary_found = keyword.lower() in summary.lower()
+                title_found = keyword.lower() in title.lower()
+                if summary_found or title_found:
                     articles.append(article_reference)
                     break
 
@@ -92,9 +96,8 @@ def compose_email_body(articles, keywords, feed_list):
         'keywords': ', '.join(keywords),
         'feed_list': ', '.join(feed_list),
     }
-    text = EMAIL_TEMPLATE.format(**data)
-
-    html_content = mistune.markdown(text)
+    text = jinja2.Template(EMAIL_TEMPLATE).render(**data)
+    html_content = mistune.html(text)
     html = jinja2.Template(EMAIL_STYLING).render(content=html_content)
 
     return text, html
