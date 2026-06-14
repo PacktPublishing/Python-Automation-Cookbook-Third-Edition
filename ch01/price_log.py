@@ -3,7 +3,7 @@ from decimal import Decimal
 import pendulum
 
 
-class PriceLog(object):
+class PriceLog:
 
     def __init__(self, timestamp, product_id, price):
         self.timestamp = timestamp

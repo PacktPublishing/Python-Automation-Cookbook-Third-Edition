@@ -1,9 +1,9 @@
 import parse
 from decimal import Decimal
-import delorean
+import pendulum
 
 
-class PriceLog(object):
+class PriceLog:
 
     def __init__(self, timestamp, product_id, price):
         self.timestamp = timestamp
@@ -25,7 +25,7 @@ class PriceLog(object):
             return Decimal(string)
 
         def isodate(string):
-            return delorean.parse(string)
+            return pendulum.parse(string)
 
         FORMAT = ('[{timestamp:isodate}] - SALE - PRODUCT: {product:d} - '
                   'PRICE: ${price:price}')

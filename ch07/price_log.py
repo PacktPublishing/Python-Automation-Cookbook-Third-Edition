@@ -2,7 +2,7 @@ import parse
 from decimal import Decimal
 
 
-class PriceLog(object):
+class PriceLog:
 
     def __init__(self, location, timestamp, product_id, price):
         self.timestamp = timestamp
