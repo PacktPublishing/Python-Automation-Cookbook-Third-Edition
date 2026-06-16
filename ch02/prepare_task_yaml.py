@@ -19,7 +19,7 @@ if __name__ == '__main__':
                         default=sys.stdout)
     args = parser.parse_args()
     if args.config:
-        config = yaml.load(args.config, Loader=yaml.FullLoader)
+        config = yaml.load(args.config, Loader=yaml.SafeLoader)
         # No need to transform values
         args.n1 = config['ARGUMENTS']['n1']
         args.n2 = config['ARGUMENTS']['n2']

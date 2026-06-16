@@ -15,10 +15,9 @@ def main(to_email, server, port, from_email, password):
     msg['From'] = from_email
     msg['To'] = to_email
     # Open communication and send
-    server = smtplib.SMTP_SSL(server, port)
-    server.login(from_email, password)
-    server.send_message(msg)
-    server.quit()
+    with smtplib.SMTP_SSL(server, port) as smtp:
+        smtp.login(from_email, password)
+        smtp.send_message(msg)
 
 
 if __name__ == '__main__':
@@ -38,4 +37,3 @@ if __name__ == '__main__':
          port=config['DEFAULT']['port'],
          from_email=config['DEFAULT']['email'],
          password=config['DEFAULT']['password'])
-

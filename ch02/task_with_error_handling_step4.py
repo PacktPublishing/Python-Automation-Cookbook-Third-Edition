@@ -28,5 +28,5 @@ if __name__ == '__main__':
     try:
         main(args.n1, args.n2, args.output)
     except Exception as exc:
-        logging.exception("Error running task")
+        logging.exception(f"Error running task {exc}")
         exit(1)

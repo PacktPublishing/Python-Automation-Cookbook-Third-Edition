@@ -2,6 +2,7 @@
 
 import fpdf
 from random import randint
+from lorem_text import lorem
 
 
 class StructuredPDF(fpdf.FPDF):
@@ -65,22 +66,6 @@ class StructuredPDF(fpdf.FPDF):
             self.ln()
 
 
-LOREM_IPSUM = ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-               'Donec a diam sem. Sed ac nulla consequat, tempus tortor eget, '
-               'fermentum turpis. Class aptent taciti sociosqu ad litora '
-               'torquent per conubia nostra, per inceptos himenaeos. Fusce '
-               'fermentum nibh ligula, sed dignissim risus hendrerit mollis. '
-               'Fusce aliquam semper odio, in convallis mi sagittis et. Proin '
-               'ac neque non massa lobortis maximus a quis turpis. Vestibulum '
-               'vitae justo elit. Fusce hendrerit, libero in auctor auctor, '
-               'risus velit fermentum dui, sed placerat urna augue vel lorem.'
-               ' Praesent in enim porta, blandit lorem vulputate, semper '
-               'nulla. Duis placerat neque vitae magna pulvinar elementum. '
-               'Proin in velit pellentesque, tempus dolor vel, tincidunt '
-               'turpis. Quisque vel sem metus. Nullam aliquet risus vel arcu '
-               'tempus elementum.')
-
-
 def main():
     document = StructuredPDF()
     document.alias_nb_pages()
@@ -89,8 +74,8 @@ def main():
     for index in range(1, num_chapters):
         chapter_title = 'Chapter {}'.format(index)
         num_paragraphs = randint(10, 15)
-        link, page = document.chapter(chapter_title,
-                                      [LOREM_IPSUM] * num_paragraphs)
+        paragraphs = [lorem.paragraph() for _ in range(num_paragraphs)]
+        link, page = document.chapter(chapter_title, paragraphs)
         links.append((chapter_title, page, link))
 
     document.toc(links)
