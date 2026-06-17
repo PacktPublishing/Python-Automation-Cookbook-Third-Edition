@@ -16,7 +16,7 @@ US_LOCATIONS = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                 'DC']
 CAD_LOCATIONS = ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'ON', 'PE', 'QC', 'SK',
                  'NT', 'NU', 'YT']
-CAD_TO_USD = Decimal(0.76)
+CAD_TO_USD = Decimal('0.76')
 
 
 def add_price_by_location(row):
@@ -30,7 +30,7 @@ def add_price_by_location(row):
         row['CURRENCY'] = 'CAD'
         row['USD'] = Decimal(row['PRICE']) * CAD_TO_USD
     else:
-        raise Exception('Location not found')
+        raise ValueError(f'Location not found: {location}')
 
     return row
 

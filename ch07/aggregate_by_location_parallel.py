@@ -13,7 +13,7 @@ def aggregate_filename(filename):
     try:
         print(f'Processing {filename}')
         # Obtain the location
-        match = re.match(r'output_4_(.*).json', filename)
+        match = re.match(r'output_\d_(.*)\.json', filename)
         location = match.group(1)
         output_file = f'aggregate_{location}.csv'
 
@@ -26,7 +26,7 @@ def aggregate_filename(filename):
 
 
 def main(input_glob):
-    input_files = [filename for filename in glob.glob(input_glob)]
+    input_files = glob.glob(input_glob)
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
         futures = [executor.submit(aggregate_filename, filename)

@@ -38,7 +38,7 @@ def calculate_results(reader, location):
 
 def main(input_file, output_file):
     # Find the location from the input_file
-    match = re.search(r'_(\D*?).json', input_file.name)
+    match = re.search(r'_(\D*?)\.json', input_file.name)
     location = match.group(1)
     reader = json.load(input_file)
     result = calculate_results(reader, location)

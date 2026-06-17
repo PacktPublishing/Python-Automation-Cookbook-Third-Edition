@@ -13,6 +13,7 @@ CANADIAN_FORMAT = '%Y-%m-%d %H:%M:%S+00:00'
 def to_isotime(timestamp, time_format):
     parsed_tmp = datetime.strptime(timestamp, time_format)
     time_with_tz = parsed_tmp.astimezone(timezone.utc)
+    time_with_tz = parsed_tmp.replace(tzinfo=timezone.utc)
     isotimestamp = time_with_tz.isoformat()
 
     return isotimestamp
@@ -25,7 +26,7 @@ def add_std_timestamp(row):
     elif country == 'CANADA':
         row['STD_TIMESTAMP'] = to_isotime(row['TIMESTAMP'], CANADIAN_FORMAT)
     else:
-        raise Exception('Country not found')
+        raise ValueError(f'Country not found: {country}')
 
     return row
 

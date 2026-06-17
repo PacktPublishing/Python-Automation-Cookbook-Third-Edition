@@ -4,6 +4,7 @@ This file will read a log file in CSV and transform it into JSON data. Each log 
 import csv
 import json
 import argparse
+from decimal import Decimal
 from pydantic import BaseModel, ValidationError, model_validator
 from typing import Literal
 from datetime import datetime
@@ -16,10 +17,10 @@ class Log(BaseModel):
     LOCATION: Literal['ON', 'OH']
     TIMESTAMP: str
     PRODUCT: int
-    PRICE: float
+    PRICE: Decimal
     COUNTRY: Literal['USA', 'CANADA']
     CURRENCY: Literal['USD', 'CAD']
-    USD: float
+    USD: Decimal
     STD_TIMESTAMP: datetime
 
     @model_validator(mode='after')
