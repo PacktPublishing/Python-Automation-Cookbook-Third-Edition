@@ -21,10 +21,11 @@ def main():
             print('Bot: Bye, bye!')
             break
         messages.append({'role': 'user', 'content': user_input})
-        stream = chat(model=MODEL, messages=messages, stream=True)
+        stream = chat(model=MODEL, messages=messages, stream=True, think=True)
 
         print('Bot: ')
         thinking_style = False
+        response = []
         for chunk in stream:
             if chunk.message.thinking:
                 if not thinking_style:
@@ -41,9 +42,11 @@ def main():
                     print(Style.RESET_ALL)
 
                 text = chunk.message.content
+                response.append(text)
                 print(text, end='', flush=True)
 
         print()
+        reply = ' '.join(response)
         messages.append({'role': 'assistant', 'content': reply})
 
 

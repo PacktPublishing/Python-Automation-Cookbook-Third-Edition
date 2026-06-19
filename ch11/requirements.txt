@@ -1,3 +1,5 @@
+python-dotenv==1.2.2
 openai==2.24.0
 ollama==0.6.1
 colorama==0.4.6
+pydantic==2.12.5
