@@ -1,10 +1,13 @@
+import os
 import asyncio
-from keys import OPEN_AI_KEY
 from agents import Agent, Runner, set_default_openai_key
 from agents.mcp import MCPServerStdio
 from rich.console import Console
 from rich.markdown import Markdown
+from dotenv import load_dotenv
+load_dotenv()
 
+OPEN_AI_KEY = os.getenv('OPEN_AI_KEY')
 MODEL = 'gpt-5.4'
 
 console = Console()

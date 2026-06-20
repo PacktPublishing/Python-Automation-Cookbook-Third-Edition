@@ -1,7 +1,7 @@
+import os
 import asyncio
 from agents import Agent, Runner, set_default_openai_key
-import os
-from agents.mcp import MCPServerStdio
+from agents.mcp import MCPServerSse
 from rich.console import Console
 from rich.markdown import Markdown
 from dotenv import load_dotenv
@@ -15,17 +15,11 @@ console = Console()
 
 set_default_openai_key(OPEN_AI_KEY)
 
-UV_COMMAND = os.environ.get('UV_COMMAND')
-MCP_PATH = os.environ.get('MCP_PATH')
-
 
 async def main():
-    async with MCPServerStdio(
+    async with MCPServerSse(
+        params={'url': 'http://localhost:8000/sse'},
         name='database',
-        params={
-            'command': UV_COMMAND,
-            'args': ['run', MCP_PATH],
-        },
     ) as mcp_server:
         agent = Agent(
             name='MCP Assistant',
@@ -41,7 +35,6 @@ async def main():
             described. Be concise. Return your results in a
             couple of paragraphs.
         '''
-
         result = await Runner.run(agent, input=prompt)
 
         markdown = Markdown('---')

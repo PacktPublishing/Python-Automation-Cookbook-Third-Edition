@@ -1,15 +1,16 @@
 # Imports
+import os
 import imaplib
 from email.parser import BytesParser
 from email.policy import default
 from email.utils import parseaddr
 from datetime import datetime, timedelta
-from keys import EMAIL_USER, EMAIL_PASSWORD
-try:
-    from keys import MAILBOX
-except ImportError:
-    MAILBOX = 'inbox'
+from dotenv import load_dotenv
+load_dotenv()
 
+EMAIL_USER = os.getenv('EMAIL_USER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+MAILBOX = os.getenv('MAILBOX', 'inbox')
 
 # Connect to the server and select the mailbox
 mail = imaplib.IMAP4_SSL('imap.gmail.com')
