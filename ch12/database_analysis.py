@@ -5,6 +5,8 @@ import os
 from agents.mcp import MCPServerStdio
 from rich.console import Console
 from rich.markdown import Markdown
+from dotenv import load_dotenv
+load_dotenv()
 
 MODEL = 'gpt-5.4'
 

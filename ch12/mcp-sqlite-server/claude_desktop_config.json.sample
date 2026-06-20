@@ -1,0 +1,33 @@
+{
+    "mcpServers": {
+        "playwright": {
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest",
+                "--vision"
+            ]
+        },
+        "toolbase-proxy": {
+            "command": "/Users/prayank/.toolbase/toolbase-runner",
+            "args": [
+                "-p=proxy",
+                "-f=/Users/prayank/.toolbase/config.json",
+                "-v=claude"
+            ]
+        },
+        "sqlite_mcp_server_sdio": {
+            "command": "/Users/prayank/.pyenv/shims/python",
+            "args": [
+                "-u",
+                "/Users/prayank/code/mcp-gpt-implementation/sqlite_mcp_server.py"
+            ]
+        },
+        "sqlite_mcp_server_sse": {
+            "command": "python",
+            "args": [
+                "-u",
+                "/Users/prayank/code/mcp-gpt-implementation/sqlite_mcp_server.py"
+            ]
+        }
+    }
+}
