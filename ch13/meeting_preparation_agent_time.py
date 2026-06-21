@@ -1,6 +1,6 @@
+import os
 import asyncio
-from datetime import datetime
-from keys import OPEN_AI_KEY
+import datetime
 from agents import Agent, Runner, set_default_openai_key
 from agents import function_tool
 from rich.console import Console
@@ -10,6 +10,11 @@ from notes_tools import available_notes as _available_notes
 from notes_tools import retrieve_note as _retrieve_note
 from notes_tools import write_meeting_brief as _write_meeting_brief
 from calendar_tools import retrieve_calendar_events as _retrieve_calendar_events
+
+from dotenv import load_dotenv
+load_dotenv()
+
+OPEN_AI_KEY = os.getenv('OPEN_AI_KEY')
 
 
 @function_tool
@@ -53,9 +58,9 @@ def write_meeting_brief(user: str, date: str, text: str):
 @function_tool
 def current_time():
     '''
-    Return current date time
+    Return current date time, in UTC time
     '''
-    return datetime.now()
+    return datetime.datetime.now(datetime.UTC)
 
 
 MODEL = 'gpt-5.4'

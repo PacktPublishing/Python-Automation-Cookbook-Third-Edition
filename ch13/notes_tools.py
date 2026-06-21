@@ -9,7 +9,7 @@ def available_notes():
     notes = []
     for filename in os.listdir(NOTES_DIR):
         if filename.endswith('.md'):
-            notes.append(filename.strip('.md'))
+            notes.append(filename.removesuffix('.md'))
 
     return notes
 

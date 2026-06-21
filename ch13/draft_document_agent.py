@@ -1,13 +1,15 @@
 import os
 import asyncio
-from keys import OPEN_AI_KEY
 from agents import Agent, Runner, set_default_openai_key
 from agents import function_tool
 from agents.mcp import MCPServerStdio
 
 from notes_tools import available_notes as _available_notes
 from notes_tools import retrieve_note as _retrieve_note
+from dotenv import load_dotenv
+load_dotenv()
 
+OPEN_AI_KEY = os.getenv('OPEN_AI_KEY')
 
 MODEL = 'gpt-5.4'
 
@@ -77,6 +79,9 @@ async def main():
 
     UV_COMMAND = os.environ.get('UV_COMMAND')
     MCP_DIR_PATH = os.environ.get('MCP_DIR_PATH')
+    if None in (UV_COMMAND, MCP_DIR_PATH):
+        raise Exception('UV_COMMAND or MCP_DIR_PATH not configured in .env')
+
     MCP_SERVER_PATH = os.path.join(MCP_DIR_PATH, 'word_mcp_server.py')
 
     async with MCPServerStdio(

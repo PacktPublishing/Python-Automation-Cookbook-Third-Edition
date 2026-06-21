@@ -1,20 +1,27 @@
+import os
 from icalendar import Calendar
 import caldav
-import keys
+
+from dotenv import load_dotenv
+load_dotenv()
+
+EMAIL_USER = os.getenv('EMAIL_USER')
+CALENDAR_PASSWORD = os.getenv('CALENDAR_PASSWORD')
+CALENDAR = os.getenv('CALENDAR')
 
 
 def retrieve_calendar_events():
     '''
     Obtain the calendar from the user and get events
     '''
-    url = f'https://www.google.com/calendar/dav/{keys.EMAIL_USER}/user'
+    url = f'https://www.google.com/calendar/dav/{EMAIL_USER}/user'
     client = caldav.DAVClient(
         url=url,
-        username=keys.EMAIL_USER,
-        password=keys.CALENDAR_PASSWORD,
+        username=EMAIL_USER,
+        password=CALENDAR_PASSWORD,
     )
     principal = client.principal()
-    calendar = principal.calendar(name=keys.CALENDAR)
+    calendar = principal.calendar(name=CALENDAR)
 
     all_events = []
 
