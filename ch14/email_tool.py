@@ -1,4 +1,5 @@
 # Imports
+import os
 import time
 import json
 import imaplib
@@ -9,9 +10,13 @@ from email.utils import parseaddr, make_msgid, formatdate
 from email.message import EmailMessage
 from datetime import datetime, timedelta
 from rich.progress import track
-from keys import EMAIL_USER, EMAIL_PASSWORD
+from dotenv import load_dotenv
+load_dotenv()
 
-MAILBOX = 'inbox'
+EMAIL_USER = os.getenv('EMAIL_USER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+
+MAILBOX = os.getenv('MAILBOX', 'inbox')
 DRAFT_FOLDER = '"[Gmail]/Drafts"'
 SEND_FOLDER = '"[Gmail]/Sent Mail"'
 IMAP_SERVER = 'imap.gmail.com'

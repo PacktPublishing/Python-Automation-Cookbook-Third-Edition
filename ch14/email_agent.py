@@ -1,5 +1,5 @@
+import os
 import asyncio
-from keys import OPEN_AI_KEY
 from agents import Agent, Runner, set_default_openai_key
 from agents import ModelSettings
 from agents import function_tool, retry_policies
@@ -12,6 +12,10 @@ from email_tool import create_a_draft_reply as _create_a_draft_reply
 from email_tool import send_a_summary_email as _send_a_summary_email
 from email_tool import read_stored_sent_emails as _read_stored_sent_emails
 
+from dotenv import load_dotenv
+load_dotenv()
+
+OPEN_AI_KEY = os.getenv('OPEN_AI_KEY')
 MODEL = 'gpt-5.4'
 
 console = Console()
@@ -116,5 +120,4 @@ async def main():
     console.print(markdown)
 
 # Run the main function
-# asyncio.run(main())
-print('This is the execution of the task')
+asyncio.run(main())
